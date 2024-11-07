@@ -1,0 +1,66 @@
+// Customize Select
+
+transition = 300;
+
+function customSelect(selectId) {
+    // Select Elements
+
+    var select = document.getElementById(selectId);
+    var selectStyled = select.querySelector('.app-select-styled');
+
+    // Select Functions
+
+    select.addEventListener('click', function () {
+        toggleSelectOptions(select.querySelector('.app-select-options.active'));
+    });
+
+    for (var selectOptions of select.querySelectorAll('.app-select-options')) {
+        var options = selectOptions.querySelectorAll('li');
+        options.forEach(function (option) {
+            option.addEventListener('click', function () {
+                selectStyled.innerHTML = `${option.innerHTML}
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" fill="none" width="24" height="24" />
+                    <g>
+                        <path d="M7 10l5 5 5-5" stroke="#FF892C" />
+                    </g>
+                </svg>`;
+
+                hideSelectOptions(select.querySelector('.app-select-options.active'));
+            });
+        });
+    }
+
+    document.addEventListener('click', function (e) {
+        if (!select.contains(e.target)) {
+            hideSelectOptions(select.querySelector('.app-select-options.active'));
+        }
+    });
+
+    // Animations
+
+    function toggleSelectOptions(selectOptions) {
+        if (selectOptions.style.display === 'none' || selectOptions.style.display === '') {
+            selectOptions.style.display = 'block';
+            selectOptions.style.animation = 'fadeIn 0.3s';
+        } else {
+            selectOptions.style.animation = 'fadeOut 0.3s';
+            setTimeout(function () {
+                selectOptions.style.display = 'none';
+            }, transition);
+        }
+    }
+
+    function hideSelectOptions(selectOptions) {
+        selectOptions.style.animation = 'fadeOut 0.3s';
+        setTimeout(function () {
+            selectOptions.style.display = 'none';
+        }, transition);
+    }
+}
+
+// Select All Custom Selects
+
+Array.prototype.forEach.call(document.getElementsByClassName("app-select"), function (element) {
+    customSelect(element.getAttribute("id"));
+});

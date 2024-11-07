@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма заявки на работу</title>
+    <style>
+        * {
+            box-sizing: border-box; /* Учитываем отступы и границы в ширине */
+        }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #1D1D1D; 
+            color: #f0f0f0; 
+            padding: 0; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        .polosa img {
+            width: 100%; /* Изображение будет растянуто на всю ширину контейнера */
+            height: auto; /* Высота будет пропорциональна ширине */
+        }
+        .cont {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            flex-direction: column; 
+            margin-top: 20px; 
+            padding: 0 10px; /* Добавлен отступ для мобильных устройств */
+        }
+        .contact-form { 
+            background-color: #2a2a2a; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+            max-width: 600px; /* Уменьшена максимальная ширина */
+            width: 100%; 
+            text-align: center; 
+        }
+        .contact-form h2 { 
+            margin-bottom: 20px; 
+            color: #ffffff; 
+            font-size: 28px; 
+        }
+        .contact-form label { 
+            display: block; 
+            margin: 15px 0 5px; 
+            font-size: 18px; 
+        }
+        .contact-form input, 
+        .contact-form textarea, 
+        .contact-form select { 
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border: 1px solid #444; 
+            border-radius: 4px; 
+            background-color: #333; 
+            color: #f0f0f0; 
+            font-size: 16px; 
+            transition: border-color 0.3s; 
+        }
+        .contact-form input:focus, 
+        .contact-form textarea:focus, 
+        .contact-form select:focus {
+            border-color: #4CAF50; 
+            outline: none; 
+        }
+        .contact-form button { 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            padding: 15px; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            transition: background-color 0.3s; 
+            width: 100%; 
+            font-size: 16px; 
+        }
+        .contact-form button:hover { 
+            background-color: #45a049; 
+        }
+
+        /* Медиазапросы для адаптивности */
+        @media (max-width: 768px) {
+            .contact-form h2 { 
+                font-size: 24px; 
+            }
+            .contact-form label { 
+                font-size: 16px; 
+            }
+            .contact-form input, 
+            .contact-form textarea, 
+            .contact-form select { 
+                font-size: 14px; 
+            }
+            .contact-form button { 
+                font-size: 14px; 
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-form { 
+                padding: 20px; 
+            }
+            .contact-form h2 { 
+                font-size: 20px; 
+            }
+            .contact-form label { 
+                font-size: 14px; 
+            }
+            .contact-form input, 
+            .contact-form textarea, 
+            .contact-form select { 
+                font-size: 12px; 
+            }
+            .contact-form button { 
+                font-size: 12px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cont">
+        <div class="forma12">
+            <div class="contact-form">
+                <h2>Заявка на работу на сервере</h2>
+                <form id="feedbackForm" method="POST" action="send_application1.php">
+                    <label for="name">Имя:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="age">Возраст:</label>
+                    <input type="number" id="age" name="age" required min="1" max="120">
+
+                    <label for="contact">Ссылка на ваш ВК/ТГ для связи:</label>
+                    <input type="url" id="contact" name="contact" required>
+
+                    <label for="position">Кем хотите работать на сервере?</label>
+                    <select id="position" name="position" required>
+                        <option value="ХЕЛПЕР">ХЕЛПЕР</option>
+                        <option value="АДМИН">АДМИН</option>
+                        <option value="МОДЕР">МОДЕР</option>
+                        <option value="СТАРШИЙ МОДЕР">СТАРШИЙ МОДЕР</option>
+                        <option value="КУРАТОР">КУРАТОР</option>
+                    </select>
+                    <label for="about">Расскажите коротко о себе:</label>
+                    <textarea id="about" name="about" rows="6" required></textarea>
+
+                    <button type="submit">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </div>        
+</body>
+</html>

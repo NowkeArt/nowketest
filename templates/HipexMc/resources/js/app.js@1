@@ -1,0 +1,138 @@
+var app = {
+	"online_text": null,
+	"update_last_cache": null,
+	"update_price_cache": undefined,
+
+	"update_last": function() {
+		const blockWidth = 285;
+
+		const gap = 20;
+		const screenWidth = window.innerWidth;
+		const blocksPerScreen = Math.floor(screenWidth / (blockWidth + gap)) + 2;
+
+		$.ajax({
+			url: '/engine/ajax.php?type=donaters&amount=' + blocksPerScreen,
+			dataType: 'json', type: 'POST',
+			async: true, cache: false, contentType: false, processData: false,
+
+			error: function(data) { console.log(data); },
+			complete: function() { setTimeout(function(){ app.update_last(); }, 3023); },
+			success: function(data) {
+				var cache = JSON.stringify(data);
+				if(data.length && cache != app.update_last_cache){
+					var last = $('.app-buys .items');
+					last.html('');
+
+					$.each(data, function(k, json){
+						let text = json.nick;
+						let replacement = '**';
+						let result = text.replace(/.{0,2}$/, '') + replacement;
+
+						last.append($(`
+						<div class="block">
+							<div class="content">
+								<span> ${json.date} ${json.time} </span>
+								<div class="title">
+									<img src="/templates/HipexMc/resources/images/player.png" alt="Player" />
+									<h2> ${json.name} </h2>
+									<h3> ${result} </h3>
+								</div>
+							</div>
+							<img src="${json.image}" alt="Image" />
+						</div>`));
+					});
+
+					app.update_last_cache = cache;
+					console.log('[DOM] Last donations updated');
+				}
+			}
+		});
+	},
+
+	"update_online": function(){
+		if (!app.online_text) app.online_text = $('#online').first().html();
+
+		$.ajax({
+			url: '/engine/ajax.php?type=online',
+			dataType: 'json', type: 'POST',
+			async: true, cache: false, contentType: false, processData: false,
+			error: function(data){ console.log(data); },
+			complete: function(){ setTimeout(function(){ app.update_online(); }, 2172); },
+			success: function(data){
+				$('#online').html((app.online_text + '').replace('---', data.online));
+			}
+		});
+	},
+
+	"price": function(method){
+		if(typeof method == 'undefined'){
+			method = 'check';
+		}
+
+		if(typeof app.update_price_cache != 'undefined'){
+			clearTimeout(app.update_price_cache);
+		}
+
+		var form = $('#payform');
+
+		var btn = form.find('[type="submit"]');
+
+		btn.prop('disabled', true);
+
+		if($.trim(form.find('#nickname').val()) == ''){
+			return;
+		}
+
+		app.update_price_cache = setTimeout(function(){
+
+			var formData = new FormData(form[0]);
+
+			formData.append('method', method);
+
+			$.ajax({
+				url: '/engine/ajax.php?type=price',
+				dataType: 'json', type: 'POST', data: formData,
+				async: true, cache: false, contentType: false, processData: false,
+				error: function(data){ console.log(data); },
+				complete: function(){ btn.prop('disabled', false); },
+				success: function(data){
+					if(!data.type){
+						return pipui.alert.open(data.text, data.title);
+					}
+
+					if(method == 'buy'){
+						window.location.href = data.link;
+					}else{
+						if(data.method == 'surcharge'){
+							form.find('[type="submit"]').html('Доплатить за '+data.price+' <i class="fa fa-rub"></i>');
+						}else{
+							form.find('[type="submit"]').html('Купить за '+data.price+' <i class="fa fa-rub"></i>');
+						}
+					}
+				}
+			});
+		}, 400);
+	}
+};
+
+$(function(){
+	setTimeout(function(){ app.update_online(); app.update_last(); }, 0);
+
+	new ClipboardJS('.copyto');
+
+	$('body').on('click', '#payform [type="submit"]', function(e) {
+		e.preventDefault();
+		app.price('buy');
+	}).on('click', '.copyto', function() {
+		var that = $(this);
+
+		var text = that.html();
+		that.html(text.replace('ИГРАТЬ СЕЙЧАС', 'IP СКОПИРОВАНО'));
+
+		setTimeout(function() {
+			that.html(text);
+		}, 1000);
+	}).on('click', '.anchor', function(e) {
+		$($(this).attr('href')).get(0).scrollIntoView({behavior: 'smooth'});
+	});
+});

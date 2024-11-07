@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма заявки на статус</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            padding: 20px;
+        }
+        .contact-form {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            margin: auto;
+        }
+        .contact-form h2 {
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        .contact-form input, .contact-form textarea, .contact-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #333;
+            color: #f0f0f0;
+        }
+        .contact-form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .contact-form button:hover {
+            background-color: #45a049;
+        }
+        .requirements {
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contact-form">
+    <h2>Заявка на статус "Ютубера" или "ТикТокера"</h2>
+    <div class="requirements">
+        <strong>Как получить статус "Ютубера":</strong><br>
+        • Подписчики: Необходимо иметь 300 подписчиков на вашем канале.📈<br>
+        • Просмотры: Каждое видео должно иметь не менее 1000 просмотров. 👀<br>
+        • Улучшенная версия ютуберки "Media": 1000 подписчиков и 1500 просмотров на каждом видео.<br>
+        • Контент: Видео должны быть связаны с нашим сервером.<br><br>
+
+        <strong>Как получить статус "ТикТокера":</strong><br>
+        • Подписчики: Необходимо иметь 5000 подписчиков на вашем аккаунте.📊<br>
+        • Просмотры: Каждое видео должно иметь не менее 3000 просмотров. 📊<br>
+        • Контент: Также нужно снимать ролики о нашем сервере. 🔍<br><br>
+
+        Все заявки рассматриваются индивидуально руководством. Если вам нужна помощь с реализацией вашего ролика, мы готовы помочь! 🤝
+    </div>
+    <form id="feedbackForm" method="POST" action="send_application.php">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="age">Возраст:</label>
+        <input type="number" id="age" name="age" required min="1" max="120">
+
+        <label for="platform">Платформа:</label>
+        <select id="platform" name="platform" required>
+            <option value="youtube">Ютуб</option>
+            <option value="tiktok">ТикТок</option>
+        </select>
+
+        <label for="link">Ссылка на ваш канал/аккаунт:</label>
+        <input type="url" id="link" name="link" required>
+
+        <label for="contact">Ссылка на ваш ВК/ТГ для связи:</label>
+        <input type="url" id="contact" name="contact" required>
+
+        <label for="about">Расскажите коротко о себе:</label>
+        <textarea id="about" name="about" rows="4" required></textarea>
+
+        <button type="submit">Отправить заявку</button>
+    </form>
+</div>
+
+</body>
+</html>
